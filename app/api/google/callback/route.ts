@@ -17,7 +17,7 @@ export async function GET(req:NextRequest) {
   );
 
   try {
-    const { tokens } = await oauth2Client.getToken(code!!); // Get the access token
+    const { tokens } = await oauth2Client.getToken(code!); // Get the access token
     oauth2Client.setCredentials(tokens);
     await db.user.update({
         where: { id: server?.user.id },

@@ -1,8 +1,7 @@
+'use client'
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-"use client"
 
 import { Boardcolumns } from "@/constants/boardColumns"
-import ColumnContainer from "./ColumnContainer"
 import {DndContext, DragEndEvent, DragOverEvent, DragOverlay, DragStartEvent, PointerSensor, useSensor, useSensors} from '@dnd-kit/core'
 import {arrayMove, SortableContext} from '@dnd-kit/sortable'
 import { useEffect, useState } from "react"
@@ -22,9 +21,13 @@ enum TaskStatus {
 const KanbanBoard = () => {
     const [columns, setcolumns] = useState<Columns[]>(Boardcolumns);
     const session = useSession();
+    const [mounted, setMounted] = useState(false);
     const [tasks, settasks] = useState<additonalType[] | []>([]);
     const [activeCol, setactiveCol] = useState<Columns | null>(null);
-    const [activeTask, setactiveTask] = useState<additonalType | null>(null)
+    const [activeTask, setactiveTask] = useState<additonalType | null>(null);
+    useEffect(() => {
+      setMounted(true); // This ensures the component is mounted on the client side
+    }, []);
     useEffect(()=>{
         const getTask = async()=>{
             const tasks = await getAllTasks({workSpaceId:session.data?.user.workSpaceId??1});
@@ -136,7 +139,9 @@ const KanbanBoard = () => {
             ))}
             </SortableContext>
         </div>
-       {createPortal(<DragOverlay>
+       {
+       mounted && typeof window!=="undefined" && 
+       createPortal(<DragOverlay>
             {activeCol && <ColumnContainerV2 handleDeleteTask={handleDeleteTask} col={activeCol} tasks={tasks?.filter((t)=>t.staus===activeCol.id)}/>}
             {activeTask && <TaskCard handleDeleteTask={handleDeleteTask} task={activeTask}/>}
         </DragOverlay>,document.body

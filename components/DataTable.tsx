@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { UpdatePeopleInfo } from '@/actions/user.actions';
@@ -67,6 +69,7 @@ const columns: GridColDef<Pepoles>[] = [
 
 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DataTable = ({peoples,dispPeoples}:{peoples: Pepoles[],dispPeoples:Pepoles[]}) => {
   const processUpdate = async(updatedRow: Pepoles, originalRow: Pepoles)=>{
         try {

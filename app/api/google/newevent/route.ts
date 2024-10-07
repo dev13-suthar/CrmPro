@@ -71,6 +71,7 @@ export const POST = async (req: NextRequest) => {
 
     // Return the link to the newly created event
     return new Response(JSON.stringify({ link: response.data }), { status: 200 });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error:any) {
     console.error('Error creating event:', error);
   if (error.response) {

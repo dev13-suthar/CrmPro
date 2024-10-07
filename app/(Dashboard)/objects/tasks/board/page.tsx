@@ -1,3 +1,4 @@
+"use client"
 import KanbanBoard from '@/components/KanbanBoard'
 import React from 'react'
 

@@ -1,6 +1,7 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "@typescript-eslint/no-extra-non-null-assertion": "false"
+    "@typescript-eslint/no-extra-non-null-assertion": "warn",
+    "no-unused-vars":"warn"
   }
 }

@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/api/google/events/route.js
 import { google } from 'googleapis';
 import prisma from "@/lib/db"; // Assuming you are using Prisma
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 
-export async function GET(req:NextRequest) {
+export async function GET() {
   const session = await getServerSession(authOptions) // Example to get the user ID, change accordingly
   if(!session || !session.user.id){
       return NextResponse.json({err:"No Session found"},{status:403})
@@ -13,7 +14,7 @@ export async function GET(req:NextRequest) {
 
   // Retrieve the stored tokens from the database
   const user = await prisma.user.findUnique({
-    where: { id: session.user.id!!},
+    where: { id: session.user.id!},
   });
 
   if (!user?.accessToken || !user?.refreshToken) {
@@ -33,7 +34,7 @@ export async function GET(req:NextRequest) {
   });
 
   // Optional: Refresh the token if needed
-  if (new Date() >= user.tokenExpiry!!) {
+  if (new Date() >= user.tokenExpiry!) {
     const { credentials } = await oauth2Client.refreshAccessToken();
     await prisma.user.update({
       where: { id: session?.user.id },

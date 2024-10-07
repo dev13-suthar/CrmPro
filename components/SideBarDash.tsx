@@ -1,6 +1,6 @@
 "use client"
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons"
-import { CalendarClockIcon, LogOut, NotebookPen, Search, Settings, UserCircle2Icon } from "lucide-react"
+import { CalendarClockIcon, LogOut, NotebookPen, Search,  UserCircle2Icon } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { usePathname, useRouter } from "next/navigation"
 import React from "react"

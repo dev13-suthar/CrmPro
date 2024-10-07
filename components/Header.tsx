@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { PlusIcon } from "lucide-react"
@@ -14,8 +15,8 @@ import {
 import { Input } from "./ui/input"
 import { AddCustomer } from "@/actions/user.actions"
 import { Pepoles } from "@/types/common"
-import { usePathname, useRouter } from "next/navigation"
-import { IconBrandGoogle } from "@tabler/icons-react"
+import { usePathname } from "next/navigation"
+
 
 
 const Header = ({icon,title,SetdispPeople}:{
@@ -28,7 +29,6 @@ const Header = ({icon,title,SetdispPeople}:{
   const [Phone, setPhone] = useState("");
   const [Company, setCompany] = useState("");
   const [showDialog, setshowDialog] = useState(false);
-  const router = useRouter();
   const pathName = usePathname();
   const handleCLick = async()=>{
       try {

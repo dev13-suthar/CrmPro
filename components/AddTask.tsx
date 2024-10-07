@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 "use client"
 import React, { useEffect, useState } from 'react'
 import { Input } from './ui/input'
@@ -34,7 +35,7 @@ const AddTask = ({setTasks}:{setTasks:React.Dispatch<React.SetStateAction<addito
     useEffect(()=>{
         const getData = async()=>{
             setloading(true);
-            const res = await getPeopleOfWorkSpace({adminId:session.data?.user.id!!});
+            const res = await getPeopleOfWorkSpace({adminId:session.data?.user.id ?? 1});
             if(res.status){
                 setassigness(res.additional);
             }
@@ -53,7 +54,7 @@ const AddTask = ({setTasks}:{setTasks:React.Dispatch<React.SetStateAction<addito
     const submit = async(v:z.infer<typeof createTaskSchema>)=>{
        const newTask =  await createNewTask({assignee:v.assignee,title:v.title,status:"InProgress"});
        if(newTask.status){
-            setTasks((task)=>[...task,newTask?.additional!!]);
+            setTasks((task)=>[...task,newTask?.additional!]);
             toast.success(newTask.message)
        }
        form.reset()

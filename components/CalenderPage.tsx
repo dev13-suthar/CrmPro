@@ -35,7 +35,7 @@ const CalendarPage = () => {
           calendarApi.unselect();
       
           const start = selectedDate.start;
-          let end = new Date(start);
+          const end = new Date(start);
           end.setHours(end.getHours() + 1); 
       
           // Check if the event spans an entire day (midnight to midnight or no specific end time)
@@ -96,13 +96,14 @@ const CalendarPage = () => {
                 const formattedEvents = data.events.map((event: { id: string; summary: string; start: { dateTime: string | null; date: string | null; }; end: { dateTime: string | null; date: string | null; }; }) => ({
                   id: event.id,
                   title: event.summary,
-                  start: event.start.dateTime ? new Date(event.start.dateTime) : new Date(event?.start.date!!), // handle all-day events
-                  end: event.end.dateTime ? new Date(event.end.dateTime) : new Date(event?.end.date!!),
+                  start: event.start.dateTime ? new Date(event.start.dateTime) : new Date(event.start.date!), // handle all-day events
+                  end: event.end.dateTime ? new Date(event.end.dateTime) : new Date(event.end.date!),
               }));
               
               setEvents(formattedEvents);
                 
                 setLoading(false);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (err:any) {
                 setError(err.message);
                 setLoading(false);
@@ -138,6 +139,7 @@ const CalendarPage = () => {
                 selectable={true}
                 selectMirror={true}
                 select={handleDateClick}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 eventsSet={(events)=>setEvents(events)}
                 displayEventTime={false}

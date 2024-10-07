@@ -12,12 +12,14 @@ import { Pepoles } from '@/types/common';
 const PeoplePage = ({peoples}:{
   peoples: ServerActionReturnType<Pepoles[]>
 }) => {
-  const [DispPeoples, setDispPeoples] = useState(peoples.additional)
+  const isSuccessResponse = peoples.status === true;
+  const additionalData = isSuccessResponse ? peoples.additional : undefined;
+  const [DispPeoples, setDispPeoples] = useState(additionalData)
   return (
     <>
         <div>
-        <Header title="People" icon={<UserIcon/>} dispPeople={DispPeoples} SetdispPeople={setDispPeoples}/>
-        <DataTable peoples={peoples.additional} dispPeoples={DispPeoples}/>
+        <Header title="People" icon={<UserIcon/>} SetdispPeople={setDispPeoples}/>
+        <DataTable peoples={additionalData!} dispPeoples={DispPeoples ?? []}/>
         </div>
     </>
   )

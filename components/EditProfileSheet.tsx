@@ -22,7 +22,7 @@ const EditProfileSheet = () => {
             resolver:zodResolver(formSchema)
         });
 
-        const handleFOrmSubmit = async(v:z.infer<typeof formSchema>)=>{
+        const formSubmit = async(v:z.infer<typeof formSchema>)=>{
             await editAdminProfile({username:v.username})
         }
     return (
@@ -36,7 +36,7 @@ const EditProfileSheet = () => {
                     <SheetHeader>
                         <SheetTitle>Edit profile</SheetTitle>
                         <SheetDescription>
-                            Make changes to your profile here. Click save when you're done.
+                            Make changes to your profile here. Click save when you&apos;re done.
                         </SheetDescription>
                     </SheetHeader>
                     <div className="flex items-center justify-center py-1">
@@ -45,7 +45,7 @@ const EditProfileSheet = () => {
                         </Avatar>
                     </div>
                     <Form {...form}>
-                        <form  onSubmit={form.handleSubmit(handleFOrmSubmit)} className="p-3 space-y-4">
+                        <form  onSubmit={form.handleSubmit(formSubmit)} className="p-3 space-y-4">
                             <FormField
                             control={form.control}
                             name="username"

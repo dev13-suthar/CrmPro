@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import React from 'react'
 import { Button } from './ui/button';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
+import { Calendar } from 'react-big-calendar';
+
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-const localizer = momentLocalizer(moment);
+
 
 const textEvetn = [
     {
@@ -94,6 +96,7 @@ const CalenderPage = () => {
     </div> */}
      <div style={{ height: '600px', color:"red" }}>
       <Calendar
+      // @ts-ignore
         localizer={formattedEvent}
         events={textEvetn}
         startAccessor="start"
@@ -101,7 +104,7 @@ const CalenderPage = () => {
         style={{ height: 500 }}
         popup
         views={['month', 'week', 'day']}
-        eventPropGetter={(event) => ({
+        eventPropGetter={() => ({
           style: {
             backgroundColor: "red",
             color:"black" // Customize event color

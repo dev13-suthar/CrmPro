@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 "use client"
 import { additonalType } from '@/actions/tasks.actions'
 import { Columns } from '@/types/common'
@@ -6,7 +7,7 @@ import {CSS} from "@dnd-kit/utilities"
 import React, { useMemo } from 'react'
 import TaskCard from './TaskCard'
 
-const ColumnContainer = ({col,tasks,handleDeleteTask}:{col:Columns,tasks:additonalType[],handleDeleteTask:(id: number) => Promise<void>}) => {
+const ColumnContainer = ({col,tasks,handleDeleteTask}:{col:Columns,tasks:additonalType[],handleDeleteTask:(id?: number) => Promise<void>}) => {
     const {setNodeRef,attributes,listeners,transform,transition,isDragging} = useSortable({
         id:col.id,
         data:{

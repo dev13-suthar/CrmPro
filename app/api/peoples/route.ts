@@ -1,9 +1,9 @@
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import db from "@/lib/db"
 
-export async function GET(req:NextRequest){
+export async function GET(){
     try {
         const server = await getServerSession(authOptions);
         if(!server || !server.user){
@@ -25,7 +25,7 @@ export async function GET(req:NextRequest){
             }
         });
         return NextResponse.json({peoples},{status:200})
-    } catch (error:any) {
-        
+    } catch (error) {
+        return NextResponse.json({error},{status:400})
     }
 }

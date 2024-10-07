@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ERROR_CODE, ERROR_NAME } from '@/lib/err.config';
 import { ZodError } from 'zod';
 import { generateErrorMessage } from 'zod-error';
