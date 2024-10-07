@@ -20,6 +20,9 @@ export const authOptions:NextAuthOptions = {
                     const user = await client.user.findFirst({
                         where:{
                             email:credentials.email
+                        },
+                        include:{
+                            WorkSpace:true
                         }
                     });
                     if(!user){
@@ -30,7 +33,12 @@ export const authOptions:NextAuthOptions = {
                         user.password
                     );
                     if(matchPassword){
-                        return user
+                        return {
+                            id:user.id,
+                            name:user.Name,
+                            email:user.email,
+                            workSpaceId:user.WorkSpace?.id
+                        }
                     }else{
                         throw new Error("Incorrect Password");
                     }
@@ -42,7 +50,8 @@ export const authOptions:NextAuthOptions = {
     ],
     secret:process.env.NEXTAUTH_SECRET,
     session:{
-        strategy:"jwt"
+        strategy:"jwt",
+        maxAge: 30 * 24 * 60 * 60, // 
     },
     callbacks:{
         jwt: async({token,user})=>{
@@ -50,6 +59,7 @@ export const authOptions:NextAuthOptions = {
                 token.id = Number(user.id);
                 token.name = user.name;
                 token.email = user.email
+                token.workSpaceId = user.workSpaceId
             };
             return token;
         },
@@ -57,8 +67,12 @@ export const authOptions:NextAuthOptions = {
             if(token && session && session.user){
                 session.user.id = token.id;
                 session.user.email = token.email;
+                session.user.workSpaceId = token.workSpaceId
             };
             return session;
-        }
+        },
+    },
+    pages:{
+        signIn:"/signin"
     }
 }

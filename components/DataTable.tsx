@@ -22,15 +22,32 @@ const columns: GridColDef<Pepoles>[] = [
     field: 'phone',
     headerName: 'Phone',
     type: 'string',
-    width: 110,
+    width: 140,
     editable: true,
   },
   {
     field: 'company',
     headerName: 'Company',
     type: 'string',
-    width: 110,
+    width: 150,
     editable: true,
+    renderCell: (params) => {
+      const logoUrl = `https://logo.clearbit.com/${params.value.toLowerCase()}.com`; // Example using Clearbit API
+
+      return (
+        <div style={{ display: 'flex', alignItems: 'center',gap:"4px",paddingLeft:"4px",paddingRight:"4px" }}>
+          <img
+            src={logoUrl}
+            alt={params.value}
+            style={{ width: 30, height: 30, marginRight: 8 ,borderRadius:"50%"}}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'; // Hide the image if it fails to load
+            }}
+          />
+          <span style={{ display: logoUrl ? 'inline' : 'block' }}>{params.value}</span>
+        </div>
+      );
+    },
   },
   {
     field:'jobTitle',
@@ -50,53 +67,69 @@ const columns: GridColDef<Pepoles>[] = [
 
 
 
-const DataTable = ({peoples}:{peoples: Pepoles[]}) => {
+const DataTable = ({peoples,dispPeoples}:{peoples: Pepoles[],dispPeoples:Pepoles[]}) => {
   const processUpdate = async(updatedRow: Pepoles, originalRow: Pepoles)=>{
         try {
             await UpdatePeopleInfo(updatedRow);
-            return updatedRow
+            return updatedRow;
         } catch (error:any) {
           console.error('Error updating row:', error);
           return originalRow;
         }
   }
   return (
-  <>
-    <div className='w-[max] max-w-screen-xl h-[100vh] overflow-x-auto mx-auto'>
+    <div className='w-[max] max-w-screen-xl py-3 overflow-x-auto mx-auto'>
         <DataGrid
-        rows={peoples}
+        rows={dispPeoples}
         columns={columns}
         processRowUpdate={processUpdate}
         pagination={true}
         pageSizeOptions={[5,10,25,50,100]}
         checkboxSelection
         disableRowSelectionOnClick
+        showCellVerticalBorder={true} // Enable vertical cell borders
+        showColumnVerticalBorder={true}
+        className="bg-background border border-border"
         sx={{
-          color:'white',
-          border:"1px solid white",
-          ".MuiDataGrid-columnHeaders":{
-              color:'blueviolet !important'  
+          '& .MuiDataGrid-main': {
+            color: 'hsl(var(--foreground))',
           },
-          ".MuiDataGrid-iconButtonContainer":{
-              color:"blueviolet !important",
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor:'hsl(var(--muted) / 0.5)',
+            color: 'hsl(var(--primary))',
+            borderColor: 'hsl(var(--border))',
           },
-          ".MuiTablePagination-displayedRows":{
-            color:"azure !important"
+          '& .MuiDataGrid-iconButtonContainer': {
+            color: 'hsl(var(--primary))',
           },
-          ".MuiSvgIcon-root":{
-            color:"azure !important"
+          '& .MuiTablePagination-displayedRows': {
+            color: 'hsl(var(--muted-foreground))',
           },
-          ".MuiDataGrid-row--borderBottom":{
-            background:"#030712 !important" 
+          '& .MuiSvgIcon-root': {
+            color: 'hsl(var(--muted-foreground))',
           },
-          ".MuiDataGrid-footerContainer":{
-            color:"white !important"
-          }
+          '& .MuiDataGrid-row': {
+            color: 'hsl(var(--foreground))',
+            '&:hover': {
+              backgroundColor: 'hsl(var(--muted) / 0.5)',
+            },
+          },
+          '& .MuiDataGrid-cell': {
+            borderColor: 'hsl(var(--border))',
+          },
+          '& .MuiDataGrid-footerContainer': {
+            color: 'hsl(var(--foreground))',
+            borderColor: 'hsl(var(--border))',
+          },
+          '& .MuiCheckbox-root': {
+            color: 'hsl(var(--muted-foreground))',
+          },
+          '& .MuiTablePagination-root': {
+            color: 'hsl(var(--foreground))',
+          },
         }}
         />
-    </div>
-  </>
-    
+    </div>  
   )
 }
 

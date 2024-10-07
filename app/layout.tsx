@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Provider from "@/providers/Provider";
+import { Toaster } from 'sonner';
 
 
 
@@ -19,6 +20,7 @@ export default function RootLayout({
         <body>
         <Provider>
           {children}
+          <Toaster position="top-right" duration={1000}/>
         </Provider>
       </body>
     </html>

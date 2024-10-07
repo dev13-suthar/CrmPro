@@ -1,44 +1,23 @@
 "use client";
 
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import Header from './Header';
 import { UserIcon } from 'lucide-react';
-import { Pepoles } from '@/types/common';
 import DataTable from './DataTable';
-import { useSession } from "next-auth/react"
-import { useRecoilStateLoadable, useRecoilValueLoadable } from 'recoil';
-import { peoplesAtom } from '@/states/PeopleAtoms';
-import axios from 'axios';
+import { ServerActionReturnType } from '@/types/apiTypes';
+import { Pepoles } from '@/types/common';
 
 
-const PeoplePage = () => {
-  const [people,setpeople] = useRecoilStateLoadable(peoplesAtom);
-  useEffect(()=>{
-    const fetchData = async()=>{
-      const fetchedCustomer = await axios.get("/api/people");
-      const dataa = await fetchedCustomer.data.peoples;
-      setpeople(dataa);
-    };
-    fetchData();
-  },[])
 
-  const handleAddCustomer = (newCustomer:any) => {
-    setpeople((prevCustomers:any) => [...prevCustomers, newCustomer]);
-  };
-  const session = useSession();
-  if(!session || !session.data?.user){
-    return "unAuthhhh"
-}
-
-if(people.state==="loading"){
-  return "loadingg..."
-}
-
+const PeoplePage = ({peoples}:{
+  peoples: ServerActionReturnType<Pepoles[]>
+}) => {
+  const [DispPeoples, setDispPeoples] = useState(peoples.additional)
   return (
     <>
         <div>
-        <Header title="People" icon={<UserIcon/>} />
-        <DataTable peoples={people.contents.peoples}/>
+        <Header title="People" icon={<UserIcon/>} dispPeople={DispPeoples} SetdispPeople={setDispPeoples}/>
+        <DataTable peoples={peoples.additional} dispPeoples={DispPeoples}/>
         </div>
     </>
   )

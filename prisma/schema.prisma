@@ -14,11 +14,14 @@ datasource db {
 }
 
 model User {
-  id         Int  @id @default(autoincrement())
-  email      String @unique
-  Name       String
-  password   String
-  WorkSpace  WorkSpace?
+  id            Int  @id @default(autoincrement())
+  email         String @unique
+  Name          String
+  password      String
+  accessToken   String?  // Store the access token
+  refreshToken  String?  // Store the refresh token
+  tokenExpiry   DateTime?
+  WorkSpace     WorkSpace?
 }
 
 model WorkSpace{
@@ -27,6 +30,7 @@ model WorkSpace{
   adminId   Int  @unique
   admin     User @relation(fields: [adminId],references: [id])
   people    People[] 
+  tasks     Task[]
 }
 
 model People{
@@ -39,4 +43,22 @@ model People{
   jobTitle      String?
   workSpaceId   Int
   workSpace     WorkSpace @relation(fields: [workSpaceId],references: [id])
+  task          Task[]
+}
+
+model Task{
+  id          Int @id @default(autoincrement())
+  title       String
+  dueDate     DateTime? 
+  assigneeId  Int
+  workSpaceId Int
+  staus       status @default(Todo)
+  workSpace   WorkSpace @relation(fields: [workSpaceId],references: [id])
+  assginee    People @relation(fields: [assigneeId],references: [id])
+}
+
+enum status{
+  InProgress
+  Completed
+  Todo
 }

@@ -1,8 +1,10 @@
+import { ErrorResponseType } from "@/lib/error";
 import { SuccessResponseType } from "@/lib/Success";
 import {z} from "zod"
+
 export type ServerActionReturnType<T = unknown> =
   | SuccessResponseType<T>
-  | string;
+  | ErrorResponseType;
  
 export const signUpSchema = z.object({
     password:z.string(),
@@ -35,3 +37,34 @@ export const getPeopleOfWorkspaceSchema = z.object({
   adminId:z.number()
 });
 export type getPeopleOfWorkspaceType = z.infer<typeof getPeopleOfWorkspaceSchema>
+
+export const AddTaskSchema = z.object({
+  assignee:z.string(),
+  title:z.string(),
+  dueDate:z.date().optional(),
+  status:z.enum(["InProgress","Completed","Todo"]),
+  
+});
+export  type AddTaskSchemaType = z.infer<typeof AddTaskSchema>;
+
+export const getAllTaskSchema = z.object({
+    workSpaceId:z.number(),
+});
+export type getAllTaskSchemaType = z.infer<typeof getAllTaskSchema>;
+
+export const updateTaskStatusSchema = z.object({
+  taskId:z.number(),
+  status:z.enum(["InProgress","Completed","Todo"])
+});
+export type updateTaskStatusSchemaType = z.infer<typeof updateTaskStatusSchema>;
+
+export const getOrDeleteTaskByIdSchema = z.object({
+  id:z.number()
+});
+export type getOrDeleteTaskByIdSchemaType = z.infer<typeof getOrDeleteTaskByIdSchema>
+
+export const editUserProfileSchema = z.object({
+  email:z.string().email().optional(),
+  username:z.string()
+})
+export type editUserProfileSchemaType = z.infer<typeof editUserProfileSchema>;

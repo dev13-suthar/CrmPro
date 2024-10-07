@@ -23,7 +23,7 @@ const RegisterForm = () => {
     <Card  className="w-[350px]">
         <CardHeader>
             <CardTitle>Crete Account</CardTitle>
-            <CardDescription><Link href={"/api/auth/signin"}>Already Memeber? Login</Link></CardDescription>
+            <CardDescription><Link href={"/signin"}>Already Memeber? Login</Link></CardDescription>
         </CardHeader>
         <CardContent>
             <form className="w-full flex flex-col gap-3 items-center justify-center mt-5" onSubmit={submit}>

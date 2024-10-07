@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-extra-non-null-assertion */
 "use server"
 import { TypeSafeAction } from "@/lib/async-catch";
-import { AddCustomerSchemaType, AddCustomersSchema,getPeopleOfWorkspaceSchema, getPeopleOfWorkspaceType, ServerActionReturnType, signUpSchema, SignUpSchemaType,updatePeopleSchema, updatePeopleSchemaType } from "@/types/apiTypes";
+import { AddCustomerSchemaType, AddCustomersSchema,editUserProfileSchema,editUserProfileSchemaType,getPeopleOfWorkspaceSchema, getPeopleOfWorkspaceType, ServerActionReturnType, signUpSchema, SignUpSchemaType,updatePeopleSchema, updatePeopleSchemaType } from "@/types/apiTypes";
 import db from "@/lib/db"
 import { SuccessResponse } from "@/lib/Success";
 import bcrypt from "bcryptjs"
@@ -112,4 +114,25 @@ ServerActionReturnType<Pepoles[]>
     const message = "Return People of THis Workspace";
     const AllPeople = peoples;
     return new SuccessResponse(message,200,AllPeople).serialize()
+})
+
+export const editAdminProfile = TypeSafeAction<
+editUserProfileSchemaType,
+ServerActionReturnType
+>(async(data)=>{
+    const result = editUserProfileSchema.parse(data);
+    const session = await getServerSession(authOptions);
+    if(!session || !session.user){
+        throw new Error("No Session Found")
+    };
+    await db.user.update({
+        where:{
+            id:session.user.id
+        },
+        data:{
+            Name:result.username,
+        }
+    });
+    const message = "Updated Admin Name";
+    return new SuccessResponse(message,200).serialize();
 })

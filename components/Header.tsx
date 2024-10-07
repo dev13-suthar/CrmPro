@@ -13,40 +13,51 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "./ui/input"
 import { AddCustomer } from "@/actions/user.actions"
-import { useSetRecoilState } from "recoil"
-import { peoplesAtom } from "@/states/PeopleAtoms"
 import { Pepoles } from "@/types/common"
+import { usePathname, useRouter } from "next/navigation"
+import { IconBrandGoogle } from "@tabler/icons-react"
 
-const Header = ({icon,title}:{
+
+const Header = ({icon,title,SetdispPeople}:{
     icon:React.ReactNode,
     title:string|React.ReactNode,
+    SetdispPeople?:any,
 }) => {
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [Company, setCompany] = useState("");
-  const setPeoples = useSetRecoilState(peoplesAtom);
+  const [showDialog, setshowDialog] = useState(false);
+  const router = useRouter();
+  const pathName = usePathname();
   const handleCLick = async()=>{
       try {
         const newCustomer =   await AddCustomer({Name,Email,Phone,Company});
-        const newCust = newCustomer.additional;
-        setPeoples((prevPeoples:any[])=>[...prevPeoples,newCust]);
+        if(newCustomer.status){
+          const newCust = newCustomer.additional;
+          SetdispPeople((ppl:Pepoles[])=>[...ppl,newCust])
+        }
       } catch (error:any) {
             console.error('Error adding customer:', error);
+      }finally{
+        setshowDialog(false);
+        setCompany("");
+        setName("");
+        setPhone("");
+        setEmail("")
       }
       
   }
   return (
     <div className='w-full p-3 px-8 flex items-center justify-between bg-secondary pt-6 text-pretty text-primary-foreground'>
-        <section className='flex items-center gap-3'>
+        <section className='flex items-center gap-3 text-secondary-foreground'>
                 {icon}
-                <p className='text-[0.9rem]'>{title}</p> 
+                <p className='text-[0.9rem] text-secondary-foreground font-bold'>{title}</p> 
             </section>
-            {/* <Button className='p-2 py-1' onClick={onClick}>
-                <PlusIcon className='size-4'/>
-            </Button> */}
-            <Dialog>
-                <DialogTrigger><PlusIcon className='size-4'/></DialogTrigger>
+            
+            {pathName==="/objects/people" && (
+                <Dialog open={showDialog}>
+                <DialogTrigger onClick={()=>setshowDialog(true)}><PlusIcon className='size-4'/></DialogTrigger>
                 <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Add Customer</DialogTitle>
@@ -59,9 +70,13 @@ const Header = ({icon,title}:{
                   </div>
                   <DialogFooter>
                     <Button  onClick={handleCLick}>Save changes</Button>
+                    <Button variant="ghost" onClick={() => setshowDialog(false)}>
+                    Close
+                  </Button>
                   </DialogFooter>
                 </DialogContent>
             </Dialog>
+            )}
     </div>
   )
 }

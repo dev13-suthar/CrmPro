@@ -1,0 +1,43 @@
+/* CalendarPage.module.css */
+
+/* Light theme styles (default) */
+.calendarContainer :global(.fc .fc-popover) {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.calendarContainer :global(.fc .fc-popover-header) {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 8px 12px;
+}
+
+.calendarContainer :global(.fc-theme-standard .fc-popover) {
+    background: #ffffff;
+}
+
+.calendarContainer :global(.fc-theme-standard .fc-popover-header) {
+    background: #f3f4f6;
+}
+
+/* Dark theme styles */
+:global(.dark) .calendarContainer :global(.fc .fc-popover) {
+    background: rgb(30,43,58);
+    border: 1px solid #4b5563;
+}
+
+:global(.dark) .calendarContainer :global(.fc .fc-popover-header) {
+    background: rgb(31,41,55);
+    color: #d1dced;
+}
+
+:global(.dark) .calendarContainer :global(.fc-theme-standard .fc-popover) {
+    background: rgb(30,43,58);
+}
+
+:global(.dark) .calendarContainer :global(.fc-theme-standard .fc-popover-header) {
+    background: rgb(31,41,55);
+}
+
+/* You can add more styles here if needed */

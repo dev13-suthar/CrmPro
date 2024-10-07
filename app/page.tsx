@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import {motion} from "framer-motion";
+import { HoverBorderGradient } from "@/components/ui/borderGradient";
+
 
 export default function Home() {
   const router = useRouter();
@@ -29,16 +32,28 @@ export default function Home() {
             </div>
         </nav>
         {/* HEro */}
-        <div className="container mx-auto px-4 pt-28">
+        <div className="container mx-auto px-4 pt-28 dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative pb-20">
+            <div className="flex items-center justify-center w-full mb-1">
+            <HoverBorderGradient className="w-full items-center justify-center">
+                  Beta Version 
+            </HoverBorderGradient>
+            </div>
             <div className="flex flex-col items-center justify-center">
                   <h1 className="text-4xl md:text-6xl font-bold mb-4">Supercharge Your </h1>
                   <h1 className="text-4xl md:text-6xl font-bold mb-8">Customer Relationship</h1>
-                  <p className="text-xl md:text-2xl mb-8 text-muted-foreground max-w-3xl text-center font-mono tracking-tighter">
+                  <div style={{perspective:"200px"}}>
+                  <motion.p 
+                  initial={{transform:'rotateX(40deg)'}}
+                  animate={{transform:'rotateX(13deg)'}}
+                  transition={{ ease: "backInOut", duration: 0.8 }}
+                  
+                  className="text-xl md:text-2xl mb-8 text-muted-foreground max-w-3xl text-center font-mono tracking-tighter">
                     Streamline your customer interactions, boost sales, and grow your business with our powerful CRM solution.
-                  </p>
+                  </motion.p>
+                  </div>
                   <div className="flex items-center gap-4 mt-4">
                         <Button onClick={()=>{router.push("/signup")}} className="p-5 py-6 w-[180px] flex items-center gap-1" size={"lg"}><ArrowRight className="size-4"/>  Start Free Trial</Button>
-                        <Button className="bg-secondary p-5 py-6 w-[190px]" size={"lg"}>Watch Demo</Button>
+                    
                   </div>  
             </div>
         </div>

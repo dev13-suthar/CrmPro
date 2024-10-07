@@ -1,11 +1,13 @@
-import Header from '@/components/Header'
-import { Calendar } from 'lucide-react'
+import CalenderPage from '@/components/CalenderPage'
+import CalenderPageHeader from '@/components/CalenderPageHeader'
 import React from 'react'
+
 
 const Calender = () => {
   return (
     <div className='w-full'>
-        <Header title="Calender" icon={<Calendar className='size-[1rem]'/>}/>
+        <CalenderPageHeader/>
+        <CalenderPage/>
     </div>
   )
 }
