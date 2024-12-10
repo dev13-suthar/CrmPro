@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb', // Adjust size if needed
-    },
-  },
-};
 
 export async function POST(req: NextRequest) {
   try {

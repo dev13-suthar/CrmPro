@@ -6,9 +6,10 @@ import { Input } from '@/components/ui/input'
 import { newPasswordSchema, newPasswordSchemaType } from '@/types/apiTypes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+
 
 
 const NewPassword = () => {
@@ -83,4 +84,11 @@ const NewPassword = () => {
   )
 }
 
-export default NewPassword
+
+const NewPasswordWithSuspense = () => (
+  <Suspense fallback={<p>Loading...</p>}>
+    <NewPassword />
+  </Suspense>
+)
+
+export default NewPasswordWithSuspense
