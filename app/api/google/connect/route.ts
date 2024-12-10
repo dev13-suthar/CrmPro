@@ -17,6 +17,7 @@ export async function GET() {
         'https://www.googleapis.com/auth/userinfo.email',
         'https://www.googleapis.com/auth/userinfo.profile',
       ],
+      prompt: 'consent',
     });
 
     // Redirect the user to Google's OAuth 2.0 server for authentication

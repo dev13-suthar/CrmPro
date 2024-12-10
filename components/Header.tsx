@@ -19,10 +19,11 @@ import { usePathname } from "next/navigation"
 
 
 
-const Header = ({icon,title,SetdispPeople}:{
+const Header = ({icon,title,SetdispPeople,actionButton}:{
     icon:React.ReactNode,
     title:string|React.ReactNode,
     SetdispPeople?:any,
+    actionButton?:React.ReactNode
 }) => {
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
@@ -54,7 +55,7 @@ const Header = ({icon,title,SetdispPeople}:{
                 {icon}
                 <p className='text-[0.9rem] text-secondary-foreground font-bold'>{title}</p> 
             </section>
-            
+            {actionButton}
             {pathName==="/objects/people" && (
                 <Dialog open={showDialog}>
                 <DialogTrigger onClick={()=>setshowDialog(true)}><PlusIcon className='size-4'/></DialogTrigger>

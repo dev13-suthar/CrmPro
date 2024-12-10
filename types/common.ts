@@ -18,6 +18,13 @@ export type Tasks = {
     staus:  "InProgress" | "Completed" | "Todo",
     assginee:assginee
 }
+
+export type adminUser = {
+    Name:string,
+    userplan?:{
+      planStatus?:"Free" | "Plus"
+    }
+}
  
 export type assginee = {
     id: number;
@@ -34,3 +41,13 @@ export type Columns = {
     id: "InProgress" | "Completed" | "Todo",
     colName:string
 }
+
+export type Doc = {
+  id:string,         
+  url:string         
+  createdAt:Date  
+  shareId:string
+  workspaceId:number,
+  name:string
+}
+

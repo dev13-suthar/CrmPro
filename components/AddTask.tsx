@@ -18,7 +18,7 @@ import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
 import { getPeopleOfWorkSpace } from '@/actions/user.actions'
 import { Pepoles } from '@/types/common'
-import { additonalType, createNewTask } from '@/actions/tasks.actions'
+import { createNewTask } from '@/actions/tasks.actions'
 import { Skeleton } from './ui/skeleton'
 import { toast } from 'sonner'
 
@@ -28,9 +28,9 @@ const createTaskSchema = z.object({
     title:z.string(),
 })
 
-const AddTask = ({setTasks}:{setTasks:React.Dispatch<React.SetStateAction<additonalType[]>>}) => {
+const AddTask = () => {
     const session = useSession();
-    const [assigness, setassigness] = useState<Pepoles[]>();
+    const [assigness, setassigness] = useState<Pepoles[]>(); //find better way
     const [loading, setloading] = useState(true);
     useEffect(()=>{
         const getData = async()=>{
@@ -54,7 +54,6 @@ const AddTask = ({setTasks}:{setTasks:React.Dispatch<React.SetStateAction<addito
     const submit = async(v:z.infer<typeof createTaskSchema>)=>{
        const newTask =  await createNewTask({assignee:v.assignee,title:v.title,status:"InProgress"});
        if(newTask.status){
-            setTasks((task)=>[...task,newTask?.additional!]);
             toast.success(newTask.message)
        }
        form.reset()
@@ -74,7 +73,7 @@ const AddTask = ({setTasks}:{setTasks:React.Dispatch<React.SetStateAction<addito
         </>
     }
     if(loading){
-        return "loadinggg..."
+        return <Skeleton className='h-10  w-full rounded-md'></Skeleton>
     }
     if(!session.data?.user){
         redirect("/api/auth/signin")

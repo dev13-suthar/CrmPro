@@ -1,14 +1,14 @@
-"use client"
-
-import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "./ui/button"
 
 const NaviGateButton = ({title,href}:{title:string,href:string}) => {
-    const router = useRouter();
+
   return (
-    <Button onClick={()=>router.push(`${href}`)}>
+   <Link href={`${href}`}>
+      <Button>
         {title}
     </Button>
+   </Link> 
   )
 }
 

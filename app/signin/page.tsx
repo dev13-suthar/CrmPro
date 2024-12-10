@@ -4,13 +4,16 @@ import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Rocket, Star, Moon, Sun } from "lucide-react"
+import { Rocket, Moon, Sun } from "lucide-react"
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import SmallLoader from '@/components/ui/smallLoader'
 
 
 export default function Component() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
   const [email, setemail] = useState("demo@gmail.com");
   const [password, setpassword] = useState("demo@1234");
   const router = useRouter();
@@ -20,6 +23,7 @@ export default function Component() {
   }
 
   const handleSubmit = async(e:React.FormEvent)=>{
+    setisLoading(true);
     e.preventDefault();
     const res = await signIn("credentials",{
         email:email,
@@ -28,8 +32,12 @@ export default function Component() {
     })
     if(!res?.error){
       router.push("/objects/people");
+      setisLoading(false);
+      toast.success("Signin Success, Redirectig")
     }else{
-      console.log("Errrror")
+      console.log("Errrror",res.error);
+      toast.error(res.error);
+      setisLoading(false)
     }
   }
 
@@ -102,7 +110,10 @@ export default function Component() {
                 className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <Star className="h-5 w-5 text-blue-300 group-hover:text-blue-200" aria-hidden="true" />
+                 
+                  {isLoading && (
+                    <SmallLoader/>
+                  )}
                 </span>
                 Initiate Launch Sequence
               </Button>

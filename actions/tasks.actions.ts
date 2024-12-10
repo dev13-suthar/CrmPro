@@ -7,6 +7,7 @@ import { SuccessResponse } from "@/lib/Success";
 import { AddTaskSchema, AddTaskSchemaType, getAllTaskSchema, getAllTaskSchemaType, getOrDeleteTaskByIdSchema, getOrDeleteTaskByIdSchemaType, ServerActionReturnType, updateTaskStatusSchema, updateTaskStatusSchemaType } from "@/types/apiTypes";
 import { assginee } from "@/types/common";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export type additonalType = {
     id: number;
@@ -51,6 +52,7 @@ ServerActionReturnType<additonalType>
         }
     });
     const message = "Task Created";
+    revalidatePath("/objects/tasks")
     return new SuccessResponse(message,201,tasks).serialize();
 })
 
@@ -88,6 +90,8 @@ ServerActionReturnType<additonalType>
         }
     });
     const message = `${updatedTask.id} status updated to ${updatedTask.staus}`;
+    revalidatePath("/objects/manage");
+    revalidatePath("/objects/tasks/board");
     return new SuccessResponse(message,200,updatedTask).serialize()
 })
 
@@ -102,5 +106,6 @@ ServerActionReturnType
         }
     });
     const message = 'Job Deleted Successfully';
+    revalidatePath("/objects/tasks")
     return new SuccessResponse(message,200).serialize();
 });

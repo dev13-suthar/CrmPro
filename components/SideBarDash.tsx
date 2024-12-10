@@ -1,11 +1,13 @@
 "use client"
-import { QuestionMarkCircledIcon } from "@radix-ui/react-icons"
-import { CalendarClockIcon, LogOut, NotebookPen, Search,  UserCircle2Icon } from "lucide-react"
+import { CalendarClockIcon, LogOut, NotebookPen, Search,  UserCircle2Icon, Vault } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import React from "react"
 import EditProfileSheet from "./EditProfileSheet"
 import { ModeToggle } from "./ModeToggle"
+import Link from "next/link"
+import { IconBroadcast } from "@tabler/icons-react"
+import PlusMembershipBanner from "./ui/PlusMembershipBanner"
 
 
 const WORSPACE_CONST = [
@@ -25,19 +27,22 @@ const WORSPACE_CONST = [
     icon: (<NotebookPen className="size-[1.2rem]" />)
   },
   {
-    name: "FAQ",
-    href: "#",
-    icon: (<QuestionMarkCircledIcon className="size-[1.2rem]" />)
+    name: "Safe Vault",
+    href: "/objects/vault",
+    icon: (<Vault className="size-[1.2rem]" />)
+  },
+  {
+    name: "BrodCast",
+    href: "/objects/brodcast",
+    icon: (<IconBroadcast className="size-[1.2rem]" />)
   }
 ]
 
 
 
 const SideBarDash = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
   const session = useSession();
   const pathName = usePathname();
-
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
@@ -73,15 +78,15 @@ const SideBarDash = ({ children }: { children: React.ReactNode }) => {
             <p className="font-semibold text-secondary-foreground mb-4">Workspace:</p>
             <div className="p-1 flex flex-col gap-4">
               {WORSPACE_CONST.map((i) => (
-                <div
-                  key={i.name}
-                  onClick={() => router.push(`${i.href}`)}
-                  className={`flex gap-3 cursor-pointer py-1 items-center pl-3 transition-all duration-150 hover:pl-4 hover:border-4 hover:border-l-purple-600 border-t-0 border-r-0 border-b-0 ${i.href===pathName?'pl-4 border-4 border-l-primary':''}`}
+                <Link href={`${i.href}`} key={i.name}>
+                <div className={`flex gap-3 cursor-pointer py-1 items-center pl-3 transition-all duration-150 hover:pl-4 hover:border-4 hover:border-l-purple-600 border-t-0 border-r-0 border-b-0 ${i.href===pathName?'pl-4 border-4 border-l-primary':''}`}
                 >
                   {i.icon}
                   <p>{i.name}</p>
                 </div>
+                </Link>
               ))}
+              <PlusMembershipBanner/>
             </div>
           </div>
         </section>

@@ -18,9 +18,16 @@ model User {
   email         String @unique
   Name          String
   password      String
-  accessToken   String?  // Store the access token
-  refreshToken  String?  // Store the refresh token
-  tokenExpiry   DateTime?
+
+  accessToken          String?  // Store the access token
+  resetToken           String?
+  resetTokenExpiry     DateTime?
+  refreshToken         String?  // Store the refresh token
+  tokenExpiry          DateTime?
+  updatemailToken      String?
+  updateMailTokenExpiry DateTime?
+  
+  userplan      UserPlan? 
   WorkSpace     WorkSpace?
 }
 
@@ -28,9 +35,43 @@ model WorkSpace{
   id        Int  @id @default(autoincrement())
   name      String
   adminId   Int  @unique
+  blockExpires   DateTime?  //Free Workspace users can send only brodcast in 7 days,
+
   admin     User @relation(fields: [adminId],references: [id])
+
   people    People[] 
+  safeDocs  safeDoc[]
   tasks     Task[]
+  brodcasts BrodCast[]
+}
+
+model safeDoc{
+  id          String  @id @default(cuid())
+  shareId     String  @unique @default(nanoid())
+  name        String
+  url         String  @unique
+  createdAt   DateTime @default(now())
+  workspaceId Int
+  Workspace   WorkSpace @relation(fields: [workspaceId],references: [id])
+}
+
+model UserPayments{
+  id                Int   @id @default(autoincrement())
+  userId            Int
+  orderId           String @unique
+  paymentId         String?
+  amount            Int
+  email             String?
+  orderstatus       OrderStatus @default(created) @map("Order_Status")
+  createdAt         DateTime @default(now())
+}
+
+model UserPlan{
+  id            String  @id @default(uuid())
+  userId        Int     @unique
+  planStatus    plans   @default(Free)
+  planExpires   DateTime?
+  User          User    @relation(fields: [userId],references: [id])
 }
 
 model People{
@@ -57,8 +98,28 @@ model Task{
   assginee    People @relation(fields: [assigneeId],references: [id])
 }
 
+model BrodCast{
+  id             String @id @default(cuid())
+  mailId         String
+  workSpaceId    Int
+  workspace      WorkSpace @relation(fields: [workSpaceId],references: [id])
+  @@unique([mailId])
+}
+
 enum status{
   InProgress
   Completed
   Todo
 }
+
+enum OrderStatus{
+  created
+  success
+  fail
+}
+
+enum plans{
+  Free
+  Plus
+}
+

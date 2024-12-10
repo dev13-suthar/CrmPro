@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// app/api/google/events/route.js
 import { google } from 'googleapis';
 import prisma from "@/lib/db"; // Assuming you are using Prisma
 import { NextResponse } from 'next/server';
@@ -12,12 +11,13 @@ export async function GET() {
       return NextResponse.json({err:"No Session found"},{status:403})
   }
 
-  // Retrieve the stored tokens from the database
+
   const user = await prisma.user.findUnique({
     where: { id: session.user.id!},
   });
 
   if (!user?.accessToken || !user?.refreshToken) {
+    console.log(user?.accessToken , user?.refreshToken);
     return NextResponse.json({ error: 'User not authenticated' }, { status: 401 });
   }
 
@@ -64,3 +64,16 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+
+
+
+
+  // const cacheKey = `user:${session.user.id}:calendar-events`;
+  // const cachedEvents = await redis.get(cacheKey);
+  // if (cachedEvents) {
+  //   // Ensure the cached data is a string before parsing
+  //   const parsedEvents = typeof cachedEvents === 'string' ? JSON.parse(cachedEvents) : cachedEvents;
+  //   return NextResponse.json({ events: parsedEvents, cache:true });
+  // }
+  // Retrieve the stored tokens from the database

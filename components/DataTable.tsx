@@ -5,8 +5,8 @@
 import { UpdatePeopleInfo } from '@/actions/user.actions';
 import { Pepoles } from '@/types/common';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
 const columns: GridColDef<Pepoles>[] = [
-  {field:'id', headerName:'Id',width:90},
   {
     field: 'name',
     headerName: 'Name',
@@ -17,7 +17,7 @@ const columns: GridColDef<Pepoles>[] = [
     field: 'email',
     headerName: 'Email',
     type: 'string', 
-    width: 110,
+    width: 160,
     editable: true,
   },
   {

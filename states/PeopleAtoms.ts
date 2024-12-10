@@ -1,22 +1,27 @@
-import {atom, selector} from "recoil"
-import axios from "axios"
+import axios from "axios";
 
-export const peoplesSelector = selector({
-    key:"PeolpleSelector",
-    get:async()=>{
-    try {
-      const res = await axios.get("/api/peoples");
-      const data = res.data;
-      return data; // Return the fetched data
-    } catch (error) {
-      console.error("Error fetching peoples data:", error);
-      throw error; // Handle the error if needed
-    }
-    }
-})
+import { atomFamily,selectorFamily } from "recoil";
+import { atom,selector } from "recoil";
 
-export const peoplesAtom = atom({
-    key:"PeoplesAtom",
-    default:peoplesSelector
+export const getAdminUser = atomFamily({
+  key:"AdminUser",
+  default:selectorFamily({
+    key:"adminUsrSelector",
+    get:(id)=>async()=>{
+      const res = await axios.get(`/api/peoples/getadmin`);
+      return res.data
+  }
+  })
 });
 
+
+export const usrrr = atom({
+   key:"adminFI",
+   default:selector({
+      key:"usrselector",
+      get:async()=>{
+        const res = await axios.get(`/api/peoples/getadmin`);
+        return res.data
+      }
+   })
+});

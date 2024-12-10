@@ -18,7 +18,7 @@ const PeoplePage = ({peoples}:{
   return (
     <>
         <div>
-        <Header title="People" icon={<UserIcon/>} SetdispPeople={setDispPeoples}/>
+        <Header title="People / Team Member" icon={<UserIcon/>} SetdispPeople={setDispPeoples}/>
         <DataTable peoples={additionalData!} dispPeoples={DispPeoples ?? []}/>
         </div>
     </>

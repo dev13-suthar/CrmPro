@@ -7,7 +7,8 @@ const HeroScroll = () => {
     <div className='flex flex-col overflow-hidden'>
         <ContainerScroll
         titleComponent={<>
-            <h1 className='text-3xl font-semibold text-muted-foreground'>Built With NextJS</h1>
+            <h1 className='text-3xl font-semibold text-muted-foreground'>An Operating System
+for your customer data</h1>
         </>}
         >
             <Image

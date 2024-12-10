@@ -5,9 +5,9 @@ import Link from 'next/link'
 const Footer = () => {
   return (
     <>
-        <footer className="bg-muted py-12">
+        <footer className="bg-muted py-12 h-max">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 gap-4">
             <div>
               <h3 className="text-lg font-semibold mb-4">CRM Webapp</h3>
               <p className="text-muted-foreground">Empowering your digital content journey.</p>
@@ -31,10 +31,6 @@ const Footer = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Newsletter</h4>
               <p className="text-muted-foreground mb-4">Stay updated with our latest features and news.</p>
-              <form className="flex">
-                <input type="email" placeholder="Your email" className="rounded-tl-md rounded-bl-md p-1" />
-                <Button type="submit" className="rounded-l-none">Subscribe</Button>
-              </form>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-muted-foreground/20 text-center text-muted-foreground">
